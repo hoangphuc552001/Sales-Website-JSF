@@ -29,7 +29,9 @@ public class SurveyBean {
      */
     public SurveyBean() {
     }
-
+    public String goAjax(){
+        return "ajaxtest?faces-redirect=true";
+    }
     public String getResponse() {
         StringBuilder builder = new StringBuilder();
         if (this.name != null) {

@@ -7,12 +7,17 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <ui:composition template="templates/base_learn.xhtml">
+        <ui:decorate template="templates/base_learn.xhtml">
             <ui:param name="des" value="Day la trang chu "></ui:param>
             <!--Ghi đè-->
             <ui:define name="content">
                 Day La Noi dung khao sat 
             </ui:define>
-        </ui:composition>
+        </ui:decorate>
+        <h:form>
+            <h:commandButton value="Go to AJAX page" action="#{surveyBean.goAjax()}">
+            </h:commandButton>
+        </h:form>
+
     </h:body>
 </html>
