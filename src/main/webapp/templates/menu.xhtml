@@ -1,8 +1,9 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-       <!--? Preloader Start -->
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <!--? Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
@@ -23,7 +24,7 @@
                         <div class="logo">
                             <div class="row">
                                 <a href="/">
-                                        <h:graphicImage width="70px" height="70px"   name="img/logo/hagl.jpg" library="assets"/>
+                                    <h:graphicImage width="70px" height="70px"   name="img/logo/hagl.jpg" library="assets"/>
                                 </a>
                                 <h1 style="display: flex;align-items: center;margin-top: 13px;color: white ; font-family:'Fahkwang'
                                     ;    text-shadow: -1px 1px 0 #e00909,
@@ -47,9 +48,21 @@
                                 <ul id="navigation">
                                     <li><a href="/">Home</a></li>
                                     <li><a href="#">Category</a>
-                                    
+                                        <ul class="submenu">
+                                            <c:forEach var="cat" items="#{cateBean.categories}">
+                                                <li><a href="index=?cate_id=#{cat.catID}">#{cat.catName}</a></li>
+                                            </c:forEach>
+                                          
+                                        </ul>
                                     </li>
-                                    <li><a href="about.html">about</a></li>
+                                    <li><a href="about.html">Manufacturer</a>
+                                          <ul class="submenu">
+                                              <c:forEach var="manu" items="#{cateBean.manufacturer}">
+                                                  <li><a href="index=?cate_id=#{manu.id}">#{manu.name}</a></li>
+                                            </c:forEach>
+                                          
+                                        </ul>
+                                    </li>
                                     <li class="hot"><a href="#">Latest</a>
                                         <ul class="submenu">
                                             <li><a href="shop.html"> Product list</a></li>

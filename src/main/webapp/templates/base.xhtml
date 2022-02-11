@@ -2,9 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Homepage</title>
+        <title>Home page</title>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="manifest" href="site.webmanifest"/>
@@ -24,7 +25,7 @@
         <h:outputStylesheet name="css/style.css" library="assets"/> 
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fahkwang"/>
-
+        <f:loadBundle var="pMsg" basename="products"/>
     </h:head>
     <h:body>
         <ui:insert name="menu">
