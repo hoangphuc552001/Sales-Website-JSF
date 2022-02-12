@@ -28,4 +28,9 @@ public class ManufacturerService {
             return session.createQuery(query).getResultList();
         }
     }
+    public Manufacturer getManufacturerById(int manuID){
+        try(Session session=FACTORY.openSession()){
+            return session.get(Manufacturer.class, manuID);
+        }
+    }
 }

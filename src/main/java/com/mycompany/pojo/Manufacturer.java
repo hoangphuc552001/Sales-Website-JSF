@@ -65,4 +65,26 @@ public class Manufacturer implements Serializable {
     private int id;
     private String name;
     private String country;
+
+    @Override
+    public String toString() {
+        return String.valueOf(getId()); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Manufacturer m=(Manufacturer)obj;
+        return this.getId()==m.getId(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + this.getId();
+        return hash;
+    }
+
+   
+    
+    
 }

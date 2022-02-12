@@ -4,8 +4,10 @@
  */
 package com.mycompany.pojo;
 
+import java.math.BigDecimal;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -96,14 +98,14 @@ public class Product {
     /**
      * @return the Price
      */
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return Price;
     }
 
     /**
      * @param Price the Price to set
      */
-    public void setPrice(int Price) {
+    public void setPrice(BigDecimal Price) {
         this.Price = Price;
     }
 
@@ -140,12 +142,12 @@ public class Product {
     private String ProName;
     private String TinyDes;
     private String FullDes;
-    private int Price;
+    private BigDecimal Price;
     private int Quantity;
     @ManyToOne
     @JoinColumn(name = "CatID")
     private Category category;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="prod_manufacturer",
             joinColumns={

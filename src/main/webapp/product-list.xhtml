@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Home Page</title>
     </h:head>
@@ -13,9 +14,9 @@
             <ui:define name="header"></ui:define>
             <ui:define name="content">
                 <div class="container">
-                    <h1 class="text-center">#{pMsg['products.admin']}</h1>  
+                    <h1 class="text-center">#{pMsg["products.admin"]}</h1>  
                     <h:link style="margin-bottom: 10px" styleClass="btn btn-warning" value="#{pMsg['products.add']}" outcome="product?faces-redirect=true">
-                        
+
                     </h:link>
                     <h:dataTable var="product" value="#{productBean.products}" styleClass="table">
                         <h:column>
@@ -43,6 +44,16 @@
                             <f:facet name="header">#{pMsg['products.cate']}</f:facet>
                                 #{product.category.catName}
                         </h:column> 
+                        <h:column>
+                            <f:facet name="header">#{pMsg['products.manufacturer']}</f:facet>
+                            <h:dataTable var="m" value="#{product.manufacturers}">
+                                <h:column>`
+                                    <f:facet name="header"></f:facet>
+                                    #{m.name}
+                                </h:column>
+                            </h:dataTable>
+
+                        </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
                             <h:form>

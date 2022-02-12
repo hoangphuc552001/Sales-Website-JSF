@@ -18,14 +18,22 @@ import org.hibernate.SessionFactory;
  * @author hoang
  */
 public class CategoryService {
-    private final static SessionFactory FACTORY=HibernateUtils.getSessionFactory();
-    public List<Category> getCategories(){
-        try(Session session=FACTORY.openSession()){
-            CriteriaBuilder builder=session.getCriteriaBuilder();
-            CriteriaQuery<Category> query=builder.createQuery(Category.class);
-            Root<Category> root=query.from(Category.class);
+
+    private final static SessionFactory FACTORY = HibernateUtils.getSessionFactory();
+
+    public List<Category> getCategories() {
+        try ( Session session = FACTORY.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Category> query = builder.createQuery(Category.class);
+            Root<Category> root = query.from(Category.class);
             query.select(root);
             return session.createQuery(query).getResultList();
+        }
+    }
+
+    public Category getCategoryById(int cateId) {
+        try ( Session session = FACTORY.openSession()) {
+            return session.get(Category.class, cateId);
         }
     }
 }

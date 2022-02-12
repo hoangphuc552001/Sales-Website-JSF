@@ -32,9 +32,23 @@ public class ProductService {
                 String p = String.format("%%%s%%", kw);
                 Predicate p1 = builder.like(root.get("ProName").as(String.class), p);
                 Predicate p2 = builder.like(root.get("TinyDes").as(String.class), p);
-                query=query.where(builder.or(p1,p2));
+                query = query.where(builder.or(p1, p2));
             }
             return session.createQuery(query).getResultList();
         }
+    }
+
+    public boolean addOrSaveProduct(Product p) { //status persistent=>update, transient=>add
+        try ( Session session = FACTORY.openSession()) {
+            try {
+                session.getTransaction().begin();
+                session.saveOrUpdate(p);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                return false;
+            }
+        }
+        return true;
     }
 }

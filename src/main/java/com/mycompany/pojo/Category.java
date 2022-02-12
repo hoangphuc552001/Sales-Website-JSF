@@ -50,4 +50,26 @@ public class Category implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int CatID;
     private String CatName;
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.CatID);// Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Category cat=(Category)obj;
+        return this.CatID==cat.CatID; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.CatID;
+        return hash;
+    }
+
+  
+    
+    
 }
