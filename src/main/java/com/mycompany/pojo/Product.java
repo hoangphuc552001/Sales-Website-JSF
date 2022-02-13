@@ -26,6 +26,20 @@ import javax.persistence.Table;
 public class Product {
 
     /**
+     * @return the img
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
+     * @param img the img to set
+     */
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    /**
      * @return the Quantity
      */
     public int getQuantity() {
@@ -144,6 +158,7 @@ public class Product {
     private String FullDes;
     private BigDecimal Price;
     private int Quantity;
+    private String img;
     @ManyToOne
     @JoinColumn(name = "CatID")
     private Category category;

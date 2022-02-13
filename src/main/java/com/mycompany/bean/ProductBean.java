@@ -8,12 +8,19 @@ import com.mycompany.pojo.Category;
 import com.mycompany.pojo.Manufacturer;
 import com.mycompany.pojo.Product;
 import com.mycompany.service.ProductService;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -23,6 +30,34 @@ import javax.faces.bean.ManagedBean;
 @Named(value = "productBean")
 @RequestScoped
 public class ProductBean {
+
+    /**
+     * @return the imgFile
+     */
+    public Part getImgFile() {
+        return imgFile;
+    }
+
+    /**
+     * @param imgFile the imgFile to set
+     */
+    public void setImgFile(Part imgFile) {
+        this.imgFile = imgFile;
+    }
+
+    /**
+     * @return the img
+     */
+    public String getImg() {
+        return img;
+    }
+
+    /**
+     * @param img the img to set
+     */
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     /**
      * @return the ProID
@@ -156,19 +191,23 @@ public class ProductBean {
     private BigDecimal Price;
     private int Quantity;
     private Category category;
+    private String img;
     private Set<Manufacturer> manufacturers;
+    private Part imgFile;
+    private static ProductService proService = new ProductService();
 
-    private static ProductService proService=new ProductService();
     /**
      * Creates a new instance of ProductBean
      */
     public ProductBean() {
     }
-    public List<Product> getProducts(){
+
+    public List<Product> getProducts() {
         return getProService().getProducts(null);
     }
-    public String addProduct(){
-        Product p=new Product();
+
+    public String addProduct() {
+        Product p = new Product();
         p.setProName(ProName);
         p.setCategory(category);
         p.setFullDes(TinyDes);
@@ -176,9 +215,29 @@ public class ProductBean {
         p.setPrice(Price);
         p.setQuantity(Quantity);
         p.setManufacturers(manufacturers);
-        System.out.println(p.getManufacturers());
-        if (proService.addOrSaveProduct(p)==true) return "product-list?faces-redirect=true";
+        try {
+            this.uploadFile();
+            p.setImg("sp/"+this.imgFile.getSubmittedFileName());
+            if (proService.addOrSaveProduct(p) == true) {
+                return "product-list?faces-redirect=true";
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ProductBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return "index";
     }
-}
 
+    private void uploadFile() throws IOException {
+        String path = FacesContext.getCurrentInstance().getExternalContext()
+                .getRealPath("/resources/imgs-clothes/sp") + "/"
+                + this.imgFile.getSubmittedFileName();
+        try (InputStream in = this.imgFile.getInputStream();FileOutputStream out = new FileOutputStream(path)) {
+            byte[] d = new byte[1024];
+            int byteRead;
+            while ((byteRead = in.read(d)) != -1) {
+                out.write(d, 0, byteRead);
+            }
+
+        }
+    }
+}
