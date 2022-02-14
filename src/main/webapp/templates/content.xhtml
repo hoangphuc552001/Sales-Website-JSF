@@ -22,11 +22,19 @@
                                 <div class="product-img">
                                     <h:graphicImage name="#{pro.img}" library="imgs-clothes" alt=""/>
                                 </div>
+
                                 <div class="product-caption">
                                     <h3><a href="product_details.html">#{pro.proName}</a></h3>
                                     <h:outputText style="color:red" value="#{pro.price}">
                                         <f:convertNumber type="currency" locale="vi-VN" currencySymbol="VNĐ"/>
                                     </h:outputText>
+                                </div>
+                                <div>
+                                    <h:form>
+                                        <h:commandButton value="Thêm vào giỏ" styleClass="btn btn-info">
+                                            <f:ajax listener="#{cartBean.addItemToCart(5, 'Nokia 7610', 2900000)}"/>
+                                        </h:commandButton>
+                                    </h:form>
                                 </div>
                             </div>
                         </div>
