@@ -18,7 +18,9 @@
                     <h:link style="margin-bottom: 10px" styleClass="btn btn-warning" value="#{pMsg['products.add']}" outcome="product?faces-redirect=true">
 
                     </h:link>
-                    <h:dataTable var="product" value="#{productBean.products}" styleClass="table">
+                    <h:dataTable 
+                        headerClass="order-table-header"
+                        rowClasses="order-table-odd-row,order-table-even-row" var="product" value="#{productBean.products}" styleClass="table">  
                         <h:column>
                             <f:facet name="header">#{pMsg['products.id']}</f:facet>
                                 #{product.proID}
@@ -49,7 +51,7 @@
                             <h:dataTable var="m" value="#{product.manufacturers}">
                                 <h:column>
                                     <f:facet name="header"></f:facet>
-                                    #{m.name}
+                                        #{m.name}
                                 </h:column>
                             </h:dataTable>
 
@@ -61,14 +63,31 @@
                                     <f:param name="product_id" value="#{product.proID}"/>
                                 </h:link>
                                 |
-                                <h:commandLink style="color:blue;text-decoration: underline" value="#{pMsg['products.delete']}">
-                                    <f:ajax/>
+                                <h:commandLink style="color:blue;text-decoration: underline" value="#{pMsg['products.delete']}"
+                                              onclick="hiddenPro(this)" >
+                                    <f:ajax listener="#{productBean.deleteProduct(product)}" 
+                                            onevent="deleteSuccess" onerror="deleteError"/>
+                                    
                                 </h:commandLink>
+                          
                             </h:form>
                         </h:column> 
                     </h:dataTable>
                 </div>
+                <script>
+                    function deleteSuccess() {
+                        alert("xoá thành công");
+                    }
+                    function deleteError() {
+                        alert("xoá thất bại");
+                    }
+                    function hiddenPro(pro, e) {
+                        var formE=pro.parentElement.parentElement.parentElement;
+                        formE.style.visibility="collapse";
+                    }              
+                </script>
             </ui:define>
         </ui:composition>
+
     </h:body>
 </html>

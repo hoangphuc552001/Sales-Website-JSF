@@ -226,7 +226,10 @@ public class ProductBean {
         }
         return "index";
     }
-
+    public String deleteProduct(Product p) throws Exception{
+        if (proService.deleteProduct(p))return "successful";
+        throw new Exception("Something wrong");
+    }
     private void uploadFile() throws IOException {
 //        String path = FacesContext.getCurrentInstance().getExternalContext()
 //                .getRealPath("/resources/imgs-clothes/sp") + "/"

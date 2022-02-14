@@ -51,4 +51,18 @@ public class ProductService {
         }
         return true;
     }
+
+    public boolean deleteProduct(Product p) {
+        try ( Session session = FACTORY.openSession()) {
+            try {
+                session.getTransaction().begin();
+                session.delete(p);
+                session.getTransaction().commit();
+            } catch (Exception ex) {
+                session.getTransaction().rollback();
+                return false;
+            }
+        }
+        return true;
+    }
 }
