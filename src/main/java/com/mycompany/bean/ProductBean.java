@@ -228,16 +228,17 @@ public class ProductBean {
     }
 
     private void uploadFile() throws IOException {
-        String path = FacesContext.getCurrentInstance().getExternalContext()
-                .getRealPath("/resources/imgs-clothes/sp") + "/"
-                + this.imgFile.getSubmittedFileName();
+//        String path = FacesContext.getCurrentInstance().getExternalContext()
+//                .getRealPath("/resources/imgs-clothes/sp") + "/"
+//                + this.imgFile.getSubmittedFileName();
+        String path=FacesContext.getCurrentInstance().getExternalContext().getInitParameter("uploadPath")
+                +this.imgFile.getSubmittedFileName();
         try (InputStream in = this.imgFile.getInputStream();FileOutputStream out = new FileOutputStream(path)) {
             byte[] d = new byte[1024];
             int byteRead;
             while ((byteRead = in.read(d)) != -1) {
                 out.write(d, 0, byteRead);
             }
-
         }
     }
 }
