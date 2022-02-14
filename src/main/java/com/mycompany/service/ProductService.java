@@ -65,4 +65,10 @@ public class ProductService {
         }
         return true;
     }
+
+    public Product getProductById(int proID) {
+        try(Session session=FACTORY.openSession()){
+            return session.get(Product.class,proID);
+        }
+    }
 }

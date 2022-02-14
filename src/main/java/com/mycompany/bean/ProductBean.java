@@ -200,14 +200,33 @@ public class ProductBean {
      * Creates a new instance of ProductBean
      */
     public ProductBean() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
+            String proId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+                    .get("product_id");
+            if (proId != null && !proId.isEmpty()) {
+                Product p = proService.getProductById(Integer.parseInt(proId));
+                this.ProID=p.getProID();
+                this.ProName = p.getProName();
+                this.FullDes = p.getTinyDes();
+                this.TinyDes = p.getTinyDes();
+                this.Price = p.getPrice();
+                this.Quantity = p.getQuantity();
+                this.category = p.getCategory();
+                this.manufacturers = p.getManufacturers();
+            }
+
+        }
     }
 
     public List<Product> getProducts() {
         return getProService().getProducts(null);
     }
 
-    public String addProduct() {
-        Product p = new Product();
+    public String addProduct(){
+        Product p;
+        if (this.ProID > 0) 
+             p = proService.getProductById(this.ProID);//persistence,update
+        else  p = new Product();//transient,add
         p.setProName(ProName);
         p.setCategory(category);
         p.setFullDes(TinyDes);
@@ -216,8 +235,11 @@ public class ProductBean {
         p.setQuantity(Quantity);
         p.setManufacturers(manufacturers);
         try {
-            this.uploadFile();
-            p.setImg("sp/"+this.imgFile.getSubmittedFileName());
+            if (this.imgFile != null) {
+                this.uploadFile();
+                p.setImg("sp/" + this.imgFile.getSubmittedFileName());
+            }
+
             if (proService.addOrSaveProduct(p) == true) {
                 return "product-list?faces-redirect=true";
             }
@@ -226,17 +248,21 @@ public class ProductBean {
         }
         return "index";
     }
-    public String deleteProduct(Product p) throws Exception{
-        if (proService.deleteProduct(p))return "successful";
+
+    public String deleteProduct(Product p) throws Exception {
+        if (proService.deleteProduct(p)) {
+            return "successful";
+        }
         throw new Exception("Something wrong");
     }
+
     private void uploadFile() throws IOException {
 //        String path = FacesContext.getCurrentInstance().getExternalContext()
 //                .getRealPath("/resources/imgs-clothes/sp") + "/"
 //                + this.imgFile.getSubmittedFileName();
-        String path=FacesContext.getCurrentInstance().getExternalContext().getInitParameter("uploadPath")
-                +this.imgFile.getSubmittedFileName();
-        try (InputStream in = this.imgFile.getInputStream();FileOutputStream out = new FileOutputStream(path)) {
+        String path = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("uploadPath")
+                + this.imgFile.getSubmittedFileName();
+        try ( InputStream in = this.imgFile.getInputStream();  FileOutputStream out = new FileOutputStream(path)) {
             byte[] d = new byte[1024];
             int byteRead;
             while ((byteRead = in.read(d)) != -1) {
