@@ -7,8 +7,8 @@ package com.mycompany.phoneweb;
 import com.mycompany.pojo.Category;
 import com.mycompany.pojo.Manufacturer;
 import com.mycompany.pojo.Product;
+import com.mycompany.pojo.User;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
@@ -32,6 +32,7 @@ public class HibernateUtils {
         conf.addAnnotatedClass(Product.class);
         conf.addAnnotatedClass(Category.class);
         conf.addAnnotatedClass(Manufacturer.class);
+        conf.addAnnotatedClass(User.class);
         ServiceRegistry registry=new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
         FACTORY=conf.buildSessionFactory(registry);
     }
