@@ -9,6 +9,7 @@ import com.mycompany.service.UserService;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.persistence.Transient;
 
 /**
@@ -127,7 +128,27 @@ public class UserBean {
         }
         return "register";
     }
-
+    public String login(){
+        User u=userService.login(username, password);
+        if (u!=null) 
+        {
+            //Bỏ vào session
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                    .put("user", u);
+            return "index?faces-redirect=true";
+        }
+        return "login";
+    }
+    public String checkLogin(){
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .get("user")!=null) return "index?faces-redirect=true";
+        return null;
+    }
+    public String logout(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .remove("user");
+        return "login?faces-redirect=true";
+    }
     /**
      * Creates a new instance of NewJSFManagedBean
      */

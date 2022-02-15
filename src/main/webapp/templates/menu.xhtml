@@ -52,15 +52,15 @@
                                             <c:forEach var="cat" items="#{cateBean.categories}">
                                                 <li><a href="index=?cate_id=#{cat.catID}">#{cat.catName}</a></li>
                                             </c:forEach>
-                                          
+
                                         </ul>
                                     </li>
                                     <li><a href="about.html">Manufacturer</a>
-                                          <ul class="submenu">
-                                              <c:forEach var="manu" items="#{cateBean.manufacturer}">
-                                                  <li><a href="index=?cate_id=#{manu.id}">#{manu.name}</a></li>
+                                        <ul class="submenu">
+                                            <c:forEach var="manu" items="#{cateBean.manufacturer}">
+                                                <li><a href="index=?cate_id=#{manu.id}">#{manu.name}</a></li>
                                             </c:forEach>
-                                          
+
                                         </ul>
                                     </li>
                                     <li class="hot"><a href="#">Latest</a>
@@ -96,8 +96,21 @@
                                         <span class="flaticon-search"></span>
                                     </div>
                                 </li>
-                                <li> <a href="login.html"><span class="flaticon-user"></span></a></li>
-                                <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li>
+                                <c:if test="#{facesContext.externalContext.sessionMap
+                                              .get('user')!=null}">
+                                    <h:form>
+                                        <li><a href="login.html"><span class="flaticon-user"> #{facesContext.externalContext.sessionMap
+                                                                                                .get('user').name}</span></a></li>
+                                        <h:commandLink style="color:black" action="#{userBean.logout()}">Đăng xuất</h:commandLink>
+                                    </h:form>
+
+                                </c:if>
+                                <c:if test="#{facesContext.externalContext.sessionMap
+                                              .get('user')==null}">
+                                    <li> <a href="login.html"><span class="flaticon-user"></span></a></li>
+                                    <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li>
+                                </c:if>
+
                             </ul>
                         </div>
                     </div>

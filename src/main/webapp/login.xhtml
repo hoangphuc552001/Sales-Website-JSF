@@ -14,8 +14,33 @@
 
             <ui:define name="header"></ui:define>
             <ui:define name="content">
-                <h1 class="text-center">ĐĂNG KÝ NGƯỜI DÙNG</h1>
-
+                <f:metadata>
+                    <f:viewAction action="#{userBean.checkLogin()}"/>
+                </f:metadata>
+                <h1 class="text-center">ĐĂNG Nhập</h1>
+                <h:messages />
+                <h:form>
+                    <div class="container">
+                  
+                        <div class="form-group">
+                            <h:outputLabel value="Tên đăng nhập"/>
+                            <h:inputText id="txtUsername"
+                                         value="#{userBean.username}"
+                                         styleClass="form-control"/>
+                        </div> 
+                        <div class="form-group">
+                            <h:outputLabel value="Mật khẩu"/>
+                            <h:inputSecret id="txtPassword" 
+                                         value="#{userBean.password}"
+                                         styleClass="form-control"/>
+                        </div>
+                       
+                        <div class="form-group">
+                            <h:commandButton styleClass="btn btn-info" value="Đăng Nhập"
+                                             action="#{userBean.login()}"/>
+                        </div>
+                    </div>
+                </h:form>
 
             </ui:define>
 

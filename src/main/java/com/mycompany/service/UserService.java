@@ -6,6 +6,9 @@ package com.mycompany.service;
 
 import com.mycompany.phoneweb.HibernateUtils;
 import com.mycompany.pojo.User;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,5 +35,23 @@ public class UserService {
         }
         return false;
 
+    }
+
+    public User login(String username, String password) {
+        password = DigestUtils.md5Hex(password);
+        try ( Session session = FACTORY.openSession()) {
+            try {
+                CriteriaBuilder b = session.getCriteriaBuilder();
+                CriteriaQuery<User> q = b.createQuery(User.class);
+                Root<User> root = q.from(User.class);
+                q.select(root);
+                q.where(b.equal(root.get("username").as(String.class),
+                        username), b.equal(root.get("password").as(String.class), password));
+                return session.createQuery(q).getSingleResult();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
