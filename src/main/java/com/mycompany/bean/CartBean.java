@@ -8,8 +8,11 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -29,30 +32,42 @@ public class CartBean implements Serializable {
      */
     public CartBean() {
     }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         if (FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("cart")==null){
+                .getExternalContext().getSessionMap().get("cart") == null) {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                     .put("cart", new HashMap<>());
         }
     }
-    
-    public String addItemToCart(int productID,String productName,BigDecimal price){
-        Map<Integer,Object> cart=(Map<Integer,Object>) FacesContext.getCurrentInstance()
+    List<Map<Integer, Object>> l = new ArrayList<>();
+
+    public List<Map<String, Object>> getCarts() {
+        Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cart");
+        List<Map<String, Object>> kq = new ArrayList<>();
+        for (Object o : cart.values()) {
+            Map<String, Object> d = (Map<String, Object>) o;
+            kq.add((Map<String, Object>) d);
+        }
+        return kq;
+    }
+
+    public String addItemToCart(int productID, String productName, BigDecimal price) {
+        Map<Integer, Object> cart = (Map<Integer, Object>) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap()
                 .get("cart");
-       if (cart.get(productID)==null){
-           Map<String,Object> data=new HashMap<>();
-           data.put("productId", productID);
-           data.put("productName",productName);
-           data.put("productPrice",price);
-           data.put("count", 1);
-           cart.put(productID,data);
-       } else{
-           Map<String,Object>d= (Map<String,Object>) cart.get("productId");
-           d.put("count",Integer.parseInt((String) d.get("count"))+1);
-       }
+        if (cart.get(productID) == null) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("productId", productID);
+            data.put("productName", productName);
+            data.put("productPrice", price);
+            data.put("count", 1);
+            cart.put(productID, data);
+        } else {
+            Map<String, Object> d = (Map<String, Object>) cart.get("productId");
+            d.put("count", Integer.parseInt((String) d.get("count")) + 1);
+        }
         return null;
     }
 }
