@@ -29,12 +29,7 @@ public class PaymentService {
             try {
                 session.getTransaction().begin();
                 session.save(payment);
-                System.out.println(payment.getId());
-                System.out.println(paymentDetail.size());
-                for (PaymentDetail detail : paymentDetail) {
-                    System.out.println(detail.getPayment().getId());
-                    session.save(detail);
-                }
+                session.save(paymentDetail);
                 session.getTransaction().commit();
                 return true;
             } catch (Exception e) {
